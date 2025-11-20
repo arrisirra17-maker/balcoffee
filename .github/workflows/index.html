@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bal Coffee - Premium Coffee Experience</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c1810;
+            --secondary: #8b6f47;
+            --accent: #d4af37;
+            --light: #f5f1e8;
+            --text: #333;
+            --white: #ffffff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Custom Cursor */
+        body {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="%238b6f47"/></svg>') 10 10, auto;
+        }
+
+        a, button {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="%23d4af37"/></svg>') 10 10, auto;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(44, 24, 16, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .lang-btn {
+            background: var(--secondary);
+            color: var(--light);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .lang-btn.active {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 60px;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(44, 24, 16, 0.7), rgba(139, 111, 71, 0.7)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="30" cy="30" r="20" fill="%238b6f47" opacity="0.1"/><circle cx="70" cy="70" r="25" fill="%23d4af37" opacity="0.05"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: var(--light);
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 4.5rem);
+            margin-bottom: 1rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .hero .accent-text {
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        h2 .accent-text {
+            color: var(--accent);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Menu Section */
+        .menu {
+            background: var(--light);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .menu-item {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transform: scale(1);
+        }
+
+        .menu-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .menu-item-img {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #8b6f47, #d4af37);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item-img::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .menu-item-content {
+            padding: 1.5rem;
+        }
+
+        .menu-item h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .menu-item p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .menu-item-price {
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--white);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            color: var(--text);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #8b6f47, #d4af37);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Reviews Section */
+        .reviews {
+            background: linear-gradient(135deg, #2c1810, #3d2817);
+            color: var(--light);
+        }
+
+        .reviews h2 {
+            color: var(--light);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .review-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+            transform: translateY(-10px);
+        }
+
+        .review-stars {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .review-text {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .review-author {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--light);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 1rem;
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: var(--light);
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(44, 24, 16, 0.3);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-block {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-block h4 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-block p {
+            color: var(--text);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-5px) rotate(10deg);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--light);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                height: 300px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="#home" class="logo">
+            <i class="fas fa-coffee"></i>
+            Bal Coffee
+        </a>
+        <nav>
+            <a href="#menu" data-en="Menu" data-ru="Меню" data-kk="Мәзір">Меню</a>
+            <a href="#about" data-en="About" data-ru="О нас" data-kk="Біз туралы">О нас</a>
+            <a href="#reviews" data-en="Reviews" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+            <a href="#contact" data-en="Contact" data-ru="Контакты" data-kk="Байланыс">Контакты</a>
+            <div class="lang-switcher">
+                <button class="lang-btn active" onclick="setLanguage('ru')">РУ</button>
+                <button class="lang-btn" onclick="setLanguage('kk')">ҚҚ</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>
+                <span data-en="Premium Coffee Experience" data-ru="Премиум опыт" data-kk="Премиум тәжірибе">Премиум опыт</span><br>
+                <span class="accent-text" data-en="Pure Excellence" data-ru="Чистое совершенство" data-kk="Мөлдір мінсіздік">Чистое совершенство</span>
+            </h1>
+            <p data-en="Experience the finest coffee moments" data-ru="Испытайте лучшие кофейные моменты" data-kk="Кофенің нәзік ләззатын татыңыз">Испытайте лучшие кофейные моменты</p>
+            <a href="#menu" class="cta-button" data-en="Explore Menu" data-ru="Изучить меню" data-kk="Мәзірді көру">Изучить меню</a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu">
+        <h2><span data-en="Our" data-ru="Наше" data-kk="Біздің">Наше</span> <span class="accent-text" data-en="Menu" data-ru="меню" data-kk="мәзір">меню</span></h2>
+        <p class="section-subtitle" data-en="Carefully curated selection" data-ru="Тщательно подобранный выбор" data-kk="Мұқият таңдалған ассортимент">Тщательно подобранный выбор</p>
+        
+        <div class="menu-grid">
+            <div class="menu-item fade-in">
+                <div class="menu-item-img">☕</div>
+                <div class="menu-item-content">
+                    <h3 data-en="Espresso" data-ru="Эспрессо" data-kk="Эспрессо">Эспрессо</h3>
+                    <p data-en="Rich and intense" data-ru="Богатый и насыщенный" data-kk="Қанық, хош иісті">Богатый и насыщенный</p>
+                    <div class="menu-item-price">450₸</div>
+                </div>
+            </div>
+            <div class="menu-item fade-in">
+                <div class="menu-item-img">🥛</div>
+                <div class="menu-item-content">
+                    <h3 data-en="Cappuccino" data-ru="Капучино" data-kk="Капучино">Капучино</h3>
+                    <p data-en="Creamy and smooth" data-ru="Кремовый и гладкий" data-kk="Кремді және біртекті">Кремовый и гладкий</p>
+                    <div class="menu-item-price">520₸</div>
+                </div>
+            </div>
+            <div class="menu-item fade-in">
+                <div class="menu-item-img">🍫</div>
+                <div class="menu-item-content">
+                    <h3 data-en="Mocha" data-ru="Мокка" data-kk="Мокка">Мокка</h3>
+                    <p data-en="Chocolate bliss" data-ru="Шоколадное блаженство" data-kk="Шоколадты бақыт">Шоколадное блаженство</p>
+                    <div class="menu-item-price">580₸</div>
+                </div>
+            </div>
+            <div class="menu-item fade-in">
+                <div class="menu-item-img">🍰</div>
+                <div class="menu-item-content">
+                    <h3 data-en="Tiramisu" data-ru="Тирамису" data-kk="Тирамису">Тирамису</h3>
+                    <p data-en="Classic dessert" data-ru="Классический десерт" data-kk="Сәндік десерт">Классический десерт</p>
+                    <div class="menu-item-price">650₸</div>
+                </div>
+            </div>
+            <div class="menu-item fade-in">
+                <div class="menu-item-img">🧁</div>
+                <div class="menu-item-content">
+                    <h3 data-en="Cheesecake" data-ru="Чизкейк" data-kk="Дәмді чизкейк">Чизкейк</h3>
+                    <p data-en="Creamy perfection" data-ru="Кремовое совершенство" data-kk="Кремді мінсіздік">Кремовое совершенство</p>
+                    <div class="menu-item-price">700₸</div>
+                </div>
+            </div>
+            <div class="menu-item fade-in">
+                <div class="menu-item-img">🍪</div>
+                <div class="menu-item-content">
+                    <h3 data-en="Cookies Set" data-ru="Набор печенья" data-kk="Тәттілер жинағы">Набор печенья</h3>
+                    <p data-en="Homemade goodness" data-ru="Домашняя доброта" data-kk="Үйдегідей мейіріммен">Домашняя доброта</p>
+                    <div class="menu-item-price">400₸</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2><span data-en="About" data-ru="О" data-kk="Bal Coffee">О</span> <span class="accent-text" data-en="Bal Coffee" data-ru="Bal Coffee" data-kk="жайлы">Bal Coffee</span></h2>
+        <div class="about-content">
+            <div class="about-text fade-in">
+                <h3 data-en="Our Story" data-ru="Наша история" data-kk="Біздің тарихы">Наша история</h3>
+                <p data-en="Founded in 2019" data-ru="Основана в 2025 году, Bal Coffee стала символом качества и гостеприимства в сердце Астаны." data-kk="2025 жылы құрылған Bal Coffee – Жаңаөзеннің жүрегіндегі сапа мен қонақжайлылықтың белгісі.">Основана в 2019 году, Bal Coffee стала символом качества и гостеприимства в сердце Астаны.</p>
+                <p data-en="We believe" data-ru="Мы верим, что каждая чашка кофе - это искусство, каждый момент - это воспоминание, а каждый гость - это семья." data-kk="Біз әр кесе кофені өнер, әр сәтті естелік, ал әр қонақты отбасы деп қабылдаймыз.">Мы верим, что каждая чашка кофе - это искусство, каждый момент - это воспоминание, а каждый гость - это семья.</p>
+                <p data-en="Our mission" data-ru="Наша миссия - предоставить вам не просто напиток, а целый опыт, где вы сможете расслабиться, встретиться с друзьями и создать прекрасные воспоминания." data-kk="Біздің миссиямыз – сізге тек сусын емес, нағыз тәжірибе сыйлау.">Наша миссия - предоставить вам не просто напиток, а целый опыт.</p>
+            </div>
+            <div class="about-image fade-in">👩‍🍳</div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="reviews">
+        <h2><span data-en="What Our" data-ru="Что говорят" data-kk="Қонақтарымыз">Что говорят</span> <span class="accent-text" data-en="Guests Say" data-ru="наши гости" data-kk="кофейнямыз жайлы не деуде?">наши гости</span></h2>
+        <div class="reviews-grid">
+            <div class="review-card fade-in">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text" data-en="Amazing coffee and cozy atmosphere! Will definitely come back!" data-ru="Чудесный кофе и уютная атмосфера! Обязательно вернусь!" data-kk="Керемет кофе және ыңғайлы атмосфера! Міндетті түрде қайта келем!">Чудесный кофе и уютная атмосфера! Обязательно вернусь!</p>
+                <p class="review-author">- Алмас</p>
+            </div>
+            <div class="review-card fade-in">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text" data-en="The best pastries in the city! Staff is always friendly and helpful." data-ru="Лучшие пирожные в городе! Персоналдары ұнады" data-kk="Қаланың ең күшті пирожныйлары осы жерде! Персонал әрқашан достана және көмектеседі.">Лучшие пирожные в городе! Персонал всегда дружелюбен.</p>
+                <p class="review-author">- Айгерим</p>
+            </div>
+            <div class="review-card fade-in">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text" data-en="Perfect place for meetings or solo relaxation. Love it!" data-ru="Идеальное место для встреч или одиночного отдыха. Люблю!" data-kk="Кездесу үшін өте жақсы орын. Ұнады!">Идеальное место для встреч или одиночного отдыха!</p>
+                <p class="review-author">- Кайрат</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2><span data-en="Get in" data-ru="Свяжитесь" data-kk="Бізге">Свяжитесь</span> <span class="accent-text" data-en="Touch" data-ru="с нами" data-kk="хабарласыңыз">с нами</span></h2>
+        <div class="contact-grid">
+            <form class="contact-form">
+                <div class="form-group">
+                    <label data-en="Name" data-ru="Имя" data-kk="Аты">Имя</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label data-en="Email" data-ru="Email" data-kk="Email">Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label data-en="Message" data-ru="Сообщение" data-kk="Хабарламаңыз">Сообщение</label>
+                    <textarea rows="4" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn" data-en="Send Message" data-ru="Отправить" data-kk="Жіберу">Отправить</button>
+            </form>
+            <div class="contact-info">
+                <div class="info-block">
+                    <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h4 data-en="Address" data-ru="Адрес" data-kk="Мекенжай">Адрес</h4>
+                        <p>Жаңаөзен, Самал ш/а<br>5 үй, 86</p>
+                    </div>
+                </div>
+                <div class="info-block">
+                    <div class="info-icon"><i class="fas fa-phone"></i></div>
+                    <div>
+                        <h4 data-en="Phone" data-ru="Телефон" data-kk="Телефон">Телефон</h4>
+                        <p>+7 (701) 234-56-78</p>
+                    </div>
+                </div>
+                <div class="info-block">
+                    <div class="info-icon"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <h4 data-en="Hours" data-ru="Часы работы" data-kk="Жұмыс уақыты">Часы работы</h4>
+                        <p data-en="Mon-Sun: 09:00-00:00" data-ru="Пн-Вс: 7:00-22:00" data-kk="Дс-Жс: 09:00-00:00">Пн-Вс: 09:00-00:00</p>
+                    </div>
+                </div>
+                <div>
+                    <h4 data-en="Follow Us" data-ru="Следите за нами" data-kk="Бізді бақылап тұрыңыз">Следите за нами</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/17VXFXJDzf/?mibextid=wwXIfr" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/ballqwnur?igsh=ZnZueHR0bTUzcWRs" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.link/o6tuzt" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Bal Coffee. <span data-en="All rights reserved." data-ru="Все права защищены." data-kk="Барлық құқықтар қорғалған.">Все права защищены.</span></p>
+        <p data-en="Crafted with love and passion" data-ru="Создано с любовью и страстью" data-kk="Махаббатпен жасалған">Создано с любовью и страстью ☕</p>
+    </footer>
+
+    <script>
+        // Language Switch
+        let currentLanguage = 'ru';
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('[data-' + lang + ']').forEach(element => {
+                element.textContent = element.getAttribute('data-' + lang);
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Fade In Animation on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.2s';
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.menu-item, .review-card, .about-text, .about-image').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Form Submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert(currentLanguage === 'ru' ? 'Спасибо! Мы свяжемся с вами вскоре.' : 'Рахмет! Біз сізбен қарай түсіністігіміз болады.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
